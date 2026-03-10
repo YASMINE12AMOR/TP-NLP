@@ -38,6 +38,7 @@ pages = {
     st.Page(str(BASE_DIR / "cemantik.py"), title="cemantik"),
     st.Page(str(BASE_DIR / "code_names.py"), title="code names"),
     st.Page(str(BASE_DIR / "AI_code_names.py"), title="Play code names with AI"),
+    st.Page(str(BASE_DIR / "image_generation.py"), title="generate image with ai")
   ]
 }
 pg = st.navigation(pages)
