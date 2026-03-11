@@ -28,17 +28,17 @@ BASE_DIR = Path(__file__).resolve().parent
 
 pages = {
   "NLP" : [
-    st.Page(str(BASE_DIR / "preprocessing.py"), title="Preprocessing"),
-    st.Page(str(BASE_DIR / "bow_tfidf.py"), title="Bag of Word & TF-IDF"),
-    st.Page(str(BASE_DIR / "word2vec.py"), title="Word2vec"),
-    st.Page(str(BASE_DIR / "rnn_lstm.py"), title="RNN LSTM"),
+    #st.Page(str(BASE_DIR / "preprocessing.py"), title="Preprocessing"),
+    # st.Page(str(BASE_DIR / "bow_tfidf.py"), title="Bag of Word & TF-IDF"),
+    # st.Page(str(BASE_DIR / "word2vec.py"), title="Word2vec"),
+    # st.Page(str(BASE_DIR / "rnn_lstm.py"), title="RNN LSTM"),
+    st.Page(str(BASE_DIR / "code_names.py"), title="code names"),
+    st.Page(str(BASE_DIR / "AI_code_names.py"), title="Play code names with AI"),
+    st.Page(str(BASE_DIR / "cemantik.py"), title="cemantik"),
     st.Page(str(BASE_DIR / "encoder_bert.py"), title="Encoder BERT"),
     st.Page(str(BASE_DIR / "decoder_gpt.py"), title="Decoder GPT"),
     st.Page(str(BASE_DIR / "rag.py"), title="RAG"),
-    st.Page(str(BASE_DIR / "cemantik.py"), title="cemantik"),
-    st.Page(str(BASE_DIR / "code_names.py"), title="code names"),
-    st.Page(str(BASE_DIR / "AI_code_names.py"), title="Play code names with AI"),
-    st.Page(str(BASE_DIR / "image_generation.py"), title="generate image with ai")
+    # st.Page(str(BASE_DIR / "image_generation.py"), title="generate image with ai")
   ]
 }
 pg = st.navigation(pages)
