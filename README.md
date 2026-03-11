@@ -1,199 +1,165 @@
-# TP-NLP
+<div align="center">
 
-Projet Streamlit de demonstration autour du NLP, des embeddings, des modeles generatifs et de la recherche semantique.
+# 🧠 TP-NLP
 
-## Lancement
+**Explorations interactives du traitement du langage naturel**
 
-Installer les dependances :
+[![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=flat-square&logo=python&logoColor=white)](https://python.org)
+[![Streamlit](https://img.shields.io/badge/Streamlit-1.x-FF4B4B?style=flat-square&logo=streamlit&logoColor=white)](https://streamlit.io)
+[![HuggingFace](https://img.shields.io/badge/🤗-Transformers-FFD21E?style=flat-square)](https://huggingface.co)
+[![Mistral](https://img.shields.io/badge/Mistral-AI-F7931E?style=flat-square)](https://mistral.ai)
+
+*Jeux linguistiques · Embeddings · Modèles génératifs · Recherche sémantique*
+
+---
+
+</div>
+
+## 📖 À propos
+
+**TP-NLP** est une suite d'applications Streamlit qui illustrent les grands concepts du NLP de façon interactive. Du jeu de devinette sémantique à la génération de texte par LLM, en passant par un pipeline RAG complet — chaque page est une démonstration autonome, conçue pour explorer et comprendre par la pratique.
+
+---
+
+## 🚀 Démarrage rapide
 
 ```bash
+# 1. Installer les dépendances
 pip install -r pages/requirements.txt
-```
 
-Lancer l'application :
-
-```bash
+# 2. Lancer l'application
 streamlit run pages/app.py
 ```
 
-## Logique generale du projet
+> **Astuce :** Certaines pages utilisent l'API Mistral. Ajoutez votre clé dans un fichier `.env` à la racine :
+> ```
+> MISTRAL_API_KEY=votre_clé_ici
+> ```
 
-Le fichier [`pages/app.py`](/d:/projet%20NLP/pages/app.py) est le point d'entree. Il construit la navigation Streamlit et affiche les pages actives du projet :
+---
 
-- `code_names.py`
-- `AI_code_names.py`
-- `cemantik.py`
-- `encoder_bert.py`
-- `decoder_gpt.py`
-- `rag.py`
+## 🗂️ Structure du projet
 
-Certaines autres pages sont presentes dans le dossier `pages/` mais sont commentees dans la navigation. Elles servent surtout d'exemples pedagogiques ou de prototypes.
+```
+TP-NLP/
+├── pages/
+│   ├── app.py              ← Point d'entrée & navigation
+│   ├── code_names.py       ← Codenames classique
+│   ├── AI_code_names.py    ← Codenames avec IA
+│   ├── cemantik.py         ← Jeu sémantique
+│   ├── encoder_bert.py     ← Classification BERT
+│   ├── decoder_gpt.py      ← Génération Mistral
+│   └── rag.py              ← Pipeline RAG
+├── docs/images/
+└── .env
+```
 
-## Logique de chaque fichier
+---
 
-### Navigation
+## 🎮 Applications
 
-#### [`pages/app.py`](/d:/projet%20NLP/pages/app.py)
+### 🃏 Codenames — Version classique
+> `pages/code_names.py`
 
-Centralise la navigation Streamlit avec `st.navigation()`.
-Chaque entree pointe vers une mini-application NLP ou IA.
+Implémentation fidèle du célèbre jeu de société en français. Génère une grille de 25 mots, assigne les rôles (rouge, bleu, neutre, assassin) et gère les tours des deux équipes avec une vue séparée pour les joueurs et le maître du jeu.
 
-### Jeux et interfaces interactives
-
-#### [`pages/code_names.py`](/d:/projet%20NLP/pages/code_names.py)
-
-Version classique de Codenames en francais.
-
-Logique :
-
-- genere une grille aleatoire de 25 mots
-- assigne les roles `red`, `blue`, `neutral`, `black`
-- gere les tours des equipes
-- gere les indices saisis par le maitre du jeu
-- calcule les scores et les conditions de victoire
-- affiche deux vues : joueurs et maitre du jeu
-
-Modeles utilises :
-
-- aucun modele IA
-- logique basee uniquement sur `random` et `st.session_state`
-
-#### [`pages/AI_code_names.py`](/d:/projet%20NLP/pages/AI_code_names.py)
-
-Version de Codenames ou l'IA joue le role du maitre du jeu.
-
-Logique :
-
-- cree une grille de mots et des equipes comme dans la version classique
-- charge un modele d'embeddings pour representer les mots
-- genere automatiquement un indice semantique pour l'equipe courante
-- estime les risques lies aux mots adverses, neutres ou assassin
-- propose une assistance supplementaire par clustering des mots proches de l'indice
-- permet de regenerer un indice automatiquement
-
-Modeles et methodes utilises :
-
-- `SentenceTransformer("all-MiniLM-L6-v2")`
-- similarite cosinus sur embeddings
-- `AgglomerativeClustering` pour grouper les mots proches
-- heuristiques de selection d'indice semantique
-
-#### [`pages/cemantik.py`](/d:/projet%20NLP/pages/cemantik.py)
-
-Jeu de devinette semantique en deux joueurs.
-
-Logique :
-
-- le joueur 1 saisit un mot secret
-- le joueur 2 propose jusqu'a 5 mots
-- chaque proposition est encodee en vecteur
-- l'application calcule un score de similarite entre le mot cible et le mot propose
-- l'historique des essais sert de feedback progressif
-
-Modeles utilises :
-
-- `CamembertTokenizer`
-- `CamembertModel`
-- modele charge : `camembert-base`
-- similarite cosinus via `sklearn.metrics.pairwise.cosine_similarity`
-
-### Pages de demonstration de modeles
-
-#### [`pages/encoder_bert.py`](/d:/projet%20NLP/pages/encoder_bert.py)
-
-Interface de classification comptable inspiree d'un encodeur de type BERT.
-
-Logique :
-
-- contient une base de termes comptables structuree en `actif` et `passif`
-- tente d'abord une correspondance exacte
-- si aucun terme exact n'est trouve, calcule une similarite semantique avec les exemples de la base
-- retourne la categorie la plus proche si le score depasse un seuil de `0.65`
-
-Modeles utilises :
-
-- `CamembertTokenizer`
-- `CamembertModel`
-- modele charge : `camembert-base`
-- similarite cosinus sur embeddings de texte
-
-#### [`pages/decoder_gpt.py`](/d:/projet%20NLP/pages/decoder_gpt.py)
-
-Interface assistant de generation de texte et de code.
-
-Logique :
-
-- charge la cle API Mistral depuis `.env`
-- propose trois usages :
-  - chat / questions-reponses
-  - resume de texte
-  - generation de code
-- construit un prompt selon la tache choisie
-- envoie la requete a l'API Mistral
-- affiche la reponse textuelle ou le code genere
-
-Modeles utilises :
-
-- API `mistralai`
-- modele configure : `mistral-tiny`
-
-#### [`pages/rag.py`](/d:/projet%20NLP/pages/rag.py)
-
-Demonstration complete d'un pipeline RAG pour recommander des projets academiques.
-
-Logique :
-
-- stocke un petit catalogue de projets avec titre, description, tags, niveau et lien
-- encode les descriptions en embeddings
-- construit un index vectoriel FAISS
-- retrouve les projets les plus proches d'une requete utilisateur
-- construit un contexte a partir des documents retrouves
-- demande a Mistral de generer une recommandation en s'appuyant sur ce contexte
-
-Modeles et composants utilises :
-
-- `SentenceTransformer("paraphrase-multilingual-MiniLM-L12-v2")`
-- `faiss.IndexFlatL2`
-- API `mistralai`
-- modele configure : `mistral-small-latest`
-
-
-## Resume des modeles utilises
-
-| Fichier | Modele / methode principale | Usage |
-| --- | --- | --- |
-| `cemantik.py` | `camembert-base` | similarite semantique entre mots |
-| `encoder_bert.py` | `camembert-base` | classification comptable par similarite |
-| `decoder_gpt.py` | `mistral-tiny` | chat, resume, generation de code |
-| `rag.py` | `paraphrase-multilingual-MiniLM-L12-v2` + `mistral-small-latest` + FAISS | retrieval + generation |
-| `AI_code_names.py` | `all-MiniLM-L6-v2` | generation d'indices et aide semantique |
-| `word2vec.py` | `Word2Vec` CBOW / Skip-Gram | apprentissage d'embeddings |
-| `rnn_lstm.py` | `RNN` / `LSTM` | prediction du mot suivant |
-| `preprocessing.py` | `fr_core_news_sm` + NLTK | pretraitement linguistique |
-| `image_generation.py` | `Stable Diffusion XL` | generation d'image |
-
-## Images des interfaces
-
-#### Codenames
+**Technologies :** `random` · `st.session_state`
 
 ![Interface Codenames](docs/images/code_names.png)
 
-#### Codenames avec IA
+---
+
+### 🤖 Codenames — Version IA
+> `pages/AI_code_names.py`
+
+L'IA joue le rôle du maître du jeu. Elle génère automatiquement un indice sémantique pour l'équipe courante, évalue les risques (mots adverses, neutres, assassin) et propose une assistance par clustering des mots proches.
+
+**Technologies :** `SentenceTransformer("all-MiniLM-L6-v2")` · similarité cosinus · `AgglomerativeClustering`
 
 ![Interface Codenames IA](docs/images/play_code_names_ai.png)
 
-#### Cemantik
+---
+
+### 🧩 Cemantik — Devinette sémantique
+> `pages/cemantik.py`
+
+Jeu à deux joueurs : le Joueur 1 choisit un mot secret, le Joueur 2 dispose de **5 tentatives** pour le deviner. À chaque essai, un score de similarité sémantique (0–100) guide la progression.
+
+**Technologies :** `CamembertModel` · `camembert-base` · similarité cosinus
 
 ![Interface Cemantik](docs/images/cemantik.png)
 
-#### Encoder BERT
+---
+
+### 🔍 Encodeur BERT — Classification comptable
+> `pages/encoder_bert.py`
+
+Interface de classification de termes comptables inspirée d'un encodeur BERT. Tente d'abord une correspondance exacte, puis calcule une similarité sémantique avec une base de termes structurés en *actif* et *passif*. Retourne la catégorie la plus proche si le score dépasse **0.65**.
+
+**Technologies :** `CamembertModel` · `camembert-base` · similarité cosinus
 
 ![Interface Encoder BERT](docs/images/encoder.png)
 
-#### Decoder GPT
+---
+
+### 💬 Décodeur GPT — Assistant génératif
+> `pages/decoder_gpt.py`
+
+Interface assistant alimentée par l'API Mistral, proposant trois modes d'utilisation :
+
+| Mode | Description |
+|------|-------------|
+| 💬 Chat / Q&A | Questions ouvertes sur n'importe quel sujet |
+| 📄 Résumé | Synthèse structurée d'un texte long |
+| 💻 Code | Génération de Python exécutable et commenté |
+
+**Technologies :** `mistralai` · `mistral-tiny`
 
 ![Interface Decoder GPT](docs/images/decoder.png)
 
-#### RAG
+---
+
+### 🔎 RAG — Recommandation de projets
+> `pages/rag.py`
+
+Pipeline RAG (*Retrieval-Augmented Generation*) complet pour recommander des projets académiques. Encode un catalogue de projets en embeddings, construit un index FAISS, récupère les entrées les plus proches d'une requête, puis demande à Mistral de générer une recommandation contextualisée.
+
+**Technologies :** `paraphrase-multilingual-MiniLM-L12-v2` · `faiss.IndexFlatL2` · `mistral-small-latest`
 
 ![Interface RAG](docs/images/rag.png)
+
+---
+
+## 🧬 Modèles utilisés
+
+| Application | Modèle / Méthode | Tâche |
+|-------------|-----------------|-------|
+| `cemantik.py` | `camembert-base` | Similarité sémantique entre mots |
+| `encoder_bert.py` | `camembert-base` | Classification comptable par similarité |
+| `decoder_gpt.py` | `mistral-tiny` | Chat · résumé · génération de code |
+| `rag.py` | `MiniLM-L12-v2` + `mistral-small` + FAISS | Retrieval + génération augmentée |
+| `AI_code_names.py` | `all-MiniLM-L6-v2` | Génération d'indices sémantiques |
+| `word2vec.py` | `Word2Vec` CBOW / Skip-Gram | Apprentissage d'embeddings |
+| `rnn_lstm.py` | `RNN` / `LSTM` | Prédiction du mot suivant |
+| `preprocessing.py` | `fr_core_news_sm` + NLTK | Prétraitement linguistique |
+| `image_generation.py` | `Stable Diffusion XL` | Génération d'image |
+
+---
+
+## 📦 Dépendances principales
+
+```
+streamlit
+transformers
+torch
+sentence-transformers
+faiss-cpu
+mistralai
+scikit-learn
+python-dotenv
+spacy
+nltk
+diffusers
+```
+
+---
