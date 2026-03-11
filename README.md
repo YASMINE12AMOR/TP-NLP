@@ -157,120 +157,6 @@ Modeles et composants utilises :
 - API `mistralai`
 - modele configure : `mistral-small-latest`
 
-### Pages pedagogiques supplementaires
-
-#### [`pages/preprocessing.py`](/d:/projet%20NLP/pages/preprocessing.py)
-
-Page de pretraitement NLP.
-
-Logique :
-
-- prend un texte brut
-- prevoyait les etapes suivantes :
-  - nettoyage
-  - tokenisation
-  - stemming
-  - lemmatisation
-  - suppression des stop words
-- plusieurs parties sont encore marquees `TODO`, donc la page est surtout un support de TP
-
-Modeles et bibliotheques utilises :
-
-- `nltk`
-- `spaCy`
-- modele spaCy : `fr_core_news_sm`
-- `PorterStemmer`
-
-#### [`pages/bow_tfidf.py`](/d:/projet%20NLP/pages/bow_tfidf.py)
-
-Page d'introduction aux representations classiques de texte.
-
-Logique :
-
-- separe plusieurs phrases
-- doit construire une matrice Bag of Words
-- doit ensuite calculer TF puis TF-IDF
-- plusieurs blocs restent en `TODO`, donc c'est un squelette de TP
-
-Modeles et methodes utilises :
-
-- `CountVectorizer`
-- `TfidfVectorizer`
-
-#### [`pages/word2vec.py`](/d:/projet%20NLP/pages/word2vec.py)
-
-Demonstration d'embeddings appris sur un corpus synthetique.
-
-Logique :
-
-- genere des phrases aleatoires a partir d'un petit vocabulaire
-- entraine deux modeles `Word2Vec`
-- projette les vecteurs en 3D avec PCA
-- affiche la position des mots et leur similarite cosinus
-
-Modeles utilises :
-
-- `gensim.models.Word2Vec`
-- mode `CBOW` avec `sg=0`
-- mode `Skip-Gram` avec `sg=1`
-- `PCA` pour la visualisation
-
-#### [`pages/rnn_lstm.py`](/d:/projet%20NLP/pages/rnn_lstm.py)
-
-Page pedagogique de prediction du mot suivant.
-
-Logique :
-
-- construit un vocabulaire a partir d'une phrase entree par l'utilisateur
-- entraine un petit reseau sur cette phrase
-- permet de choisir entre `RNN` et `LSTM`
-- affiche les etats caches, les probabilites et la prediction du mot suivant
-- permet un test sur une nouvelle phrase
-
-Modeles utilises :
-
-- `torch.nn.RNN`
-- `torch.nn.LSTM`
-- couche `Embedding`
-- couche `Linear`
-
-### Scripts et utilitaires
-
-#### [`pages/image_generation.py`](/d:/projet%20NLP/pages/image_generation.py)
-
-Script de generation d'image a partir d'un prompt.
-
-Logique :
-
-- construit un prompt texte enrichi par un contexte de style
-- charge un pipeline Stable Diffusion XL
-- genere une image sur CPU
-- sauvegarde le resultat dans `sdxl_cpu_result.png`
-
-Modele utilise :
-
-- `StableDiffusionXLPipeline`
-- modele charge : `stabilityai/stable-diffusion-xl-base-1.0`
-
-#### [`pages/test.py`](/d:/projet%20NLP/pages/test.py)
-
-Petit script de verification de l'environnement PyTorch.
-
-Logique :
-
-- detecte si CUDA est disponible
-- cree un tenseur sur le device selectionne
-- affiche le resultat dans le terminal
-
-#### [`pages/requirements.txt`](/d:/projet%20NLP/pages/requirements.txt)
-
-Liste des dependances Python du projet :
-
-- Streamlit pour les interfaces
-- Transformers, sentence-transformers, PyTorch pour les modeles NLP
-- FAISS pour la recherche vectorielle
-- spaCy, NLTK, gensim, scikit-learn pour les traitements NLP classiques
-- diffusers pour la generation d'image
 
 ## Resume des modeles utilises
 
@@ -288,37 +174,13 @@ Liste des dependances Python du projet :
 
 ## Images des interfaces
 
-Vous pouvez ajouter un dossier comme `docs/images/` a la racine du projet, puis deposer une capture de chaque interface.
-
-Exemple d'arborescence :
-
-```text
-docs/
-  images/
-    app.png
-    codenames.png
-    ai_codenames.png
-    cemantik.png
-    encoder_bert.png
-    decoder_gpt.png
-    rag.png
-```
-
-Ensuite, vous pouvez inserer les images directement dans ce `README`.
-
-### Captures recommandees
-
-#### Navigation principale
-
-![Navigation principale](docs/images/app.png)
-
 #### Codenames
 
-![Interface Codenames](docs/images/codenames.png)
+![Interface Codenames](docs/images/code_names.png)
 
 #### Codenames avec IA
 
-![Interface Codenames IA](docs/images/ai_codenames.png)
+![Interface Codenames IA](docs/images/play_code_names_ai.png)
 
 #### Cemantik
 
@@ -326,18 +188,12 @@ Ensuite, vous pouvez inserer les images directement dans ce `README`.
 
 #### Encoder BERT
 
-![Interface Encoder BERT](docs/images/encoder_bert.png)
+![Interface Encoder BERT](docs/images/encoder.png)
 
 #### Decoder GPT
 
-![Interface Decoder GPT](docs/images/decoder_gpt.png)
+![Interface Decoder GPT](docs/images/decoder.png)
 
 #### RAG
 
 ![Interface RAG](docs/images/rag.png)
-
-## Remarques
-
-- `decoder_gpt.py` et `rag.py` necessitent une variable `MISTRAL_API_KEY` dans le fichier `.env`.
-- `preprocessing.py` depend aussi du modele spaCy `fr_core_news_sm`.
-- Certaines pages sont des supports de TP et contiennent encore des `TODO`.
